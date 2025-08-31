@@ -1,0 +1,7 @@
+https://www.youtube.com/watch?v=m8Icp_Cid5o -  FOR UNDERSTANDING BASIC DESIGN OVERVIEW(FOR BROAD PICTURE)
+Grokking the OOD Interview -FOR REAL WORLD Object Oriented Design  PROBLEM
+https://github.com/kamranahmedse/design-patterns-for-humans - FOR DESIGN PATTERNS
+Grokking the Modern System Design Interview -FOR SYSTEM DESIGN HLD PREPERATION
+https://www.youtube.com/watch?v=_TsJizByBvE - TOPIC EXPLAINATION
+
+https://chatgpt.com/c/67e8991s4-9dbc-8002-9186-0c7961089c8d -CHATGPT guideline

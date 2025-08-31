@@ -1,0 +1,122 @@
+STRUCTURE PATTERN 
+
+---------------ADAPTER PATTERN --------------------
+ADAPTEE ------ADAPTOR ---------CLIENT
+idea - convert interface to another  ,to make it compatible 
+structure - 
+-TARGET - interface of phone (iPhone)
+- ADAPTEE -  class of charge (android) - TO BE CONVERTED 
+-ADAPTER - androidToIphone  - to do conversion 
+-CLIENT
+
+----------------------BRIDGE PATTERN --------------------
+IMPLEMENTATION ---------- ABSTARCTION
+
+idea -  separate abstraction from implementation , allowing both work independently.
+
+STRUCTURE 
+-abstraction (Remote)
+-concreate abstraction 
+-abstract implementor (tv)
+-concrete implementor
+
+example - Tv(implementor) Interface - sonyTV : Device(concreate implementor) - Remote(abstract) - basicRemote(concreate abstract) 
+
+
+-------------------------COMPOSITE PATERN-----------------------
+     OBJECT (component)
+     /    \
+  obj(leaf)  composite obj (tree of obj) 
+
+idea - allow  to compose/combine object into tree-like structure . 
+STRUCTURE 
+COMPONENT - interaface /abstract class
+LEAF-concreate class
+COMPOSITE - hold child components (both leaf and composite) 
+
+example : employees(interface) - developer(leaf) - manager(composite){can have further employees  and manager}
+folder container folder or file .
+
+---------------------------DECORATOR PATTERN --------------------
+
+idea - adding new behaviour or reponsibility to object , without affecting the base functionality/feature . 
+
+STRUCTURE 
+abstract product /component (coffee)
+concreate product  (basic coffe ) 
+abstract decorator (decorator)
+concreate decorator (milkdecorator) 
+
+example - coffee class -basic coffee-decorator - milkdecorator
+
+----------------------------Facade pattern -----------------------
+
+COMPLEX BUILDING ------- ACCUMLATING ALL ---------CLIENT 
+idea - hide underlying complexity and provide simpler interface to user . 
+STRUCTURE 
+-FACADE - manage high level method and subsystem object creation 
+-SUBSYSTEM - implement the actual complexity 
+-CLIENT -get simple template  . 
+
+subsystem  - car creation - engine , tires and all creation done 
+facade - use this to create construct car 
+client - simple use car .
+
+
+
+---------------------PROXY PATTERN------------------------
+
+idea - a object  has a access controlled to another object . 
+use in access control , resource-intensive(expernsive) object , add function like caching , access control .
+types - 
+virtual - control access ,  when obj creation is expensive .
+remote - represent obj in different address space .
+protection- object has control access base on permission . 
+smart - add new behaviour to object .
+
+example - loading real time of high-resolution from disk can be slow , 
+we use proxyImage  till real image is not available.
+
+-----------------------FLYWEIGHT PATTERN----------------------
+
+idea - reduce memory usage by sharing data among similar object .
+example  text editor - for every character  , instead of creating new object reusing char and only store positing and formatting externally . 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

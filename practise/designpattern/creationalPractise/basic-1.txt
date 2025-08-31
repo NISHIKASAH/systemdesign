@@ -1,0 +1,104 @@
+Design pattern 
+
+1.CREATIONAL DESIGN PATTER - focus on creation that best suite situation 
+make system independent of Object creation , compose and representation .
+
+Singleton - ensure single instance exist in class 
+Factory method - delegates(assign / refer) objection creation to subclass 
+Abstract factory method - produce families of related object 
+builder - build complex object step by step .
+prototype - create object  by cloning existing object . 
+
+--------------SINGLETON-----------------
+
+-STRUCTURE -
+constructor is private and empty .
+static function use to created instance . 
+
+-Key points to remember- 
+*single instance  , global access to instance .
+*constructor private to prevent external instantiation .
+*static key - no need to create object , directly call function.
+
+---------------------FACTORY METHOD------------
+-STRUCTURE- (SINGLE PRODUCT CONSIDERED)
+abstract PRODUCT - object declared 
+concreate product - type of object creation decided by subclass 
+abstract CREATOR /factory - factory for the type creation declared
+concreate creator / factory - object created for the type .
+
+-Key points to remember- 
+*Single object creation is considered in factory method.
+*An interface for creating an object, but allows subclasses to alter the type
+*instead of calling constructor , client class factory for creation of product .
+
+advantage
+-loosely couple 
+-flexible 
+-scalable 
+-follows Program to an interface, not an implementation  principle
+
+-----------------------Abstract Factory Method--------------
+idea - use for creating related families / dependent product (Two or 
+more product involved) .
+important - It allows switching between families
+STRUCTURE (MULTIPLE PRODUCT CONSIDERED) 
+abstract factory - factory for both theme
+concrete factory - individual theme product 
+abstract product 
+concreate product 
+
+example - dark  and light theme UI for BUTTON AND CHECKBOX. 
+
+----------------------------BUILDER PATTERN--------------------
+Idea - create complex product step by step . 
+separate constructor from  object representation ( same constructor 
+can be use diff representation ) 
+STRUCTURE 
+-product 
+-builder ( abstract builder) - create process for building product
+-concreate builder - actually build product 
+-director - handle building process using builder class
+-client - handle direct product creation using concreate builder.
+
+example - meal (as product) - vegMeal (steps in builder) -implementation of veg meal prep(concreate builder) - director(handle veg meal creation using builder class)
+
+
+-------------------- PROTOTYPE PATTERN ------------------
+-idea  - create object from template (PROTOTYPE)
+- COPY other obj creation bcoz creation is expensive
+-use when many config of obj is needed
+-copy done is shallow copy
+-.Clone() use to clone object
+STRUCTURE 
+- abstract prototype- interface with clone func
+-concreate-  prototype - clone implementation
+-client 
+
+deep copy - new instance is created , changes does not affect original object .
+shallow copy - copy only reference of nested object , changes affect original also.
+
+MEMBERWISECLONE() is use to perform shallow clone
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
