@@ -17,7 +17,7 @@ class Orderhandler {
     Orderhandler(Orderhandler * order){
         this->nexthandler = order;
     }
-  
+
     virtual void ProcessOrder(string order) = 0;
 
 

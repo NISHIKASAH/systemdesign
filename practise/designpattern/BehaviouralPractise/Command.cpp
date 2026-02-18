@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-using namespace std ; 
+using namespace std;
 
 /*
 Command just perform the action , 
@@ -10,7 +10,7 @@ class Command {
     virtual void execute() = 0;
 };
 class Printer {
-    public : 
+    public :
 
      void Scanning(){
         cout<<"Scanning done"<<endl;
