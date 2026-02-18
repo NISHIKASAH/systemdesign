@@ -11,7 +11,7 @@ protected:
     }
 
 public:
-    virtual void dispense(int amount) = 0;
+    virtual void dispense(double amount) = 0;
     void setHandler(AtmDispenser *handler)
     {
         handlernext = handler;
@@ -27,7 +27,7 @@ public:
     {
         thousandnotes = notes;
     }
-    void dispense(int amount) override
+    void dispense(double amount) override
     {
         int Totalnoofnotes = amount / 1000;
         int remainingAmount = amount;
@@ -67,7 +67,7 @@ public:
     {
         hunderednotes = notes;
     }
-    void dispense(int amount) override
+    void dispense(double amount) override
     {
 
         int Totalnoofnotes = amount / 100;
@@ -109,7 +109,7 @@ public:
     {
         fiftynotes = notes;
     }
-    void dispense(int amount) override
+    void dispense(double amount) override
     {
 
         int Totalnoofnotes = amount / 50;

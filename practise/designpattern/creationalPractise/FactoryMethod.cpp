@@ -1,5 +1,5 @@
 
-#include<bits/stdc++.h>
+#include<iostream>
 using namespace std;
 
 /*
@@ -12,7 +12,7 @@ expensive factory create it product , and you just use the product .
 
 
 */
-class Furniture{
+ class Furniture{
     public:
     virtual void display() =0; 
 
@@ -39,12 +39,12 @@ class Chair : public  Furniture {
     }
 };
 
-class FurnitureFactory {
+class FurnitureFactory { //superclass or interface  of factory
     public : 
     virtual Furniture* createFurniture() = 0;
 };
 
-class LuxuryFactory : public FurnitureFactory {
+class LuxuryFactory : public FurnitureFactory { // concrete  or subclass 
     public : 
     Furniture * createFurniture() override {
         return new Sofa();

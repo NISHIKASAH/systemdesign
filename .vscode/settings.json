@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "array": "cpp",
+        "chrono": "cpp",
+        "functional": "cpp",
+        "ratio": "cpp",
+        "scoped_allocator": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "string": "cpp",
+        "stdexcept": "cpp",
+        "new": "cpp",
+        "map": "cpp",
+        "vector": "cpp",
+        "ostream": "cpp",
+        "limits": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}

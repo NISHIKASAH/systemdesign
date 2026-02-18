@@ -18,7 +18,7 @@ all dependent objects (observers) so they can update themselves automatically.
 class Expenses {
     public : 
     string name ; 
-    int amount ; 
+    double amount ; 
     Expenses(string nm , int am){
         this->name = nm;
         this->amount = am;

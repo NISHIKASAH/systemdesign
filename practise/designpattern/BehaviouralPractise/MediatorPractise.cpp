@@ -1,69 +1,82 @@
-#include<bits/stdc++.h>
-using namespace std;
+#include<iostream>
+#include<vector>
+using namespace std ;
 
-class User ;
-class chatRoom {
+class Collegue ;
+class Mediator {
     public : 
-    virtual void addUser(User * user) = 0;
-    virtual void sendMessage (User * sender , string msg ) =0 ;
+    virtual void registerCollegue(Collegue * user) = 0;
+    virtual void broadCastMsg(string sender , string msg) = 0;
+    virtual void unicastingMsg(string sender , string reciver ,  string msg)  = 0;
 };
 
-class User {
-    protected:
-    chatRoom * ChatRoom ; 
+class Collegue {
+    protected :
+    Mediator * mediator;
+    public : 
+    Collegue (Mediator * medi ){
+        mediator = medi;
+        mediator->registerCollegue(this);
+    }
+    virtual void sendMessage( string msg) =0 ;
+    virtual void sendPrivate(string reciever , string msg) =0;
+
+    virtual void reciveMsg(string sender , string msg) = 0;
+    virtual string getName() =0 ;
+};
+
+class User : public Collegue {
     string name; 
     public : 
-    User(chatRoom *chatroom , string username) {
-        this->ChatRoom = chatroom;
-        this->name = username;
+    User(Mediator * m , string nam) : Collegue (m) {
+        name = nam;
     }
-    virtual void send(string sentmsg ) =0;
-    virtual  void recieve (string getmsg) = 0;
+    void sendMessage( string msg)  override {
+        mediator->broadCastMsg(name ,  msg);
 
+    }
+   void sendPrivate(string reciever , string msg)  override {
+    mediator->unicastingMsg( name , reciever , msg );
+   }
 
-}; 
-class ChatRoomConcrete : public chatRoom {
-    vector<User*>Users;
+    void reciveMsg(string sender , string msg){
+        cout<<"Msg send from " << sender<<" to reciever "<<name <<" \n";
+        cout<<"Message : "<<msg<<endl;
+    }
+    string getName() override {
+        return name;
+    }
+
+};
+class ChatRoom : public Mediator {
+    vector<Collegue*>userList;
     public : 
-    void addUser (User * user) override { 
-        Users.push_back(user);
+    void registerCollegue(Collegue * user) override {
+        userList.push_back(user);
     }
-
-    void sendMessage (User * sender , string msg ) override { 
-        for(auto user : Users){
-            if(user != sender){
-                user->recieve(msg);
-            }
+    void broadCastMsg(string sender , string msg) override { 
+        for(auto user : userList){
+           if(user->getName() != sender){
+            user->reciveMsg(sender, msg);
+           }
         }
     }
-};
+   void unicastingMsg( string sender, string reciver ,  string msg)  override {
+     for(auto user : userList){
+        if(user->getName() == reciver){
+            user->reciveMsg(sender , msg);
+        }
+     }
+   }
+};  
 
-class ConcreateUser : public User {
-    public: 
-    ConcreateUser(chatRoom *chatroom , string username) : User(chatroom , username) {};
-
-    void send(string sentmsg) override {
-        cout<<this->name<<" sends msg :  "<<sentmsg<<endl;
-        this->ChatRoom->sendMessage(this, sentmsg);
-    }
-    void recieve(string getmsg) override {
-        cout<<this->name <<" recieve msg : " <<getmsg<<endl;
-    }
-
-
-};
 int main(){
-     chatRoom* chatroom = new ChatRoomConcrete();
-   User * user1 = new ConcreateUser(chatroom , "diksha");
-      User * user2 = new ConcreateUser(chatroom , "parth");
-         User * user3 = new ConcreateUser(chatroom , "smrith");
+    Mediator * meetingroom = new ChatRoom();
+    User * user1 = new User(meetingroom , "nishika");
+     User * user2 = new User(meetingroom , "nitesh");
+      User * user3 = new User(meetingroom , "nitesha");
+      user1->sendMessage( "hello everyone");
+      user2->sendPrivate( user1->getName() ,  "hello , i'm  " + user2->getName());
 
-        chatroom->addUser(user1);
-        chatroom->addUser(user2);
-        chatroom->addUser(user3);
-        
-        chatroom->sendMessage(user2 , "lets meet at 4pm today! ");
-        cout<<endl<<"-----------------"<<endl;
-        user1->send("hello guys , shall we study together? ");
 
 }

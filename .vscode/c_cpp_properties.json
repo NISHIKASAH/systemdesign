@@ -4,8 +4,10 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/MinGW/include",
-                "C:/MinGW/lib/gcc/mingw32/9.2.0/include/c++"
+                "C:/MinGW64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++",
+                "C:/MinGW64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++/x86_64-w64-mingw32",
+                "C:/MinGW64/lib/gcc/x86_64-w64-mingw32/9.2.0/include",
+                "C:/MinGW64/x86_64-w64-mingw32/include"
             ],
             "defines": [
                 "_DEBUG",

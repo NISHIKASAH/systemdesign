@@ -1,59 +1,45 @@
-#include<bits/stdc++.h>
+#include<iostream>
 using namespace std;
 
-class ProductPrototype {
-
+class Cloneable {
     public : 
-    virtual ProductPrototype * Clone() = 0;
-    virtual void display() = 0 ;
-    virtual ~ProductPrototype() {};
+    virtual Cloneable* clone() const  =0 ;
+    virtual void display() =0;
 
 };
 
-class Product1  : public ProductPrototype {
-        string name ; 
-    int price; 
+class NPC : public Cloneable {
+    string name ;
+    int defence;
+    string attack;
     public : 
-    Product1(string name , int price ) {
-        this->name = name;
-        this->price  = price;
-        
+    NPC(string nam , string att , int def){
+        this->name = nam;
+        this->defence = def;
+        this->attack  = att ; 
     }
-    ProductPrototype * Clone() override {
-        return new Product1(*this);
+    NPC (const NPC& other){
+        name=  other.name;
+        defence = other.defence;
+        attack = other.attack;
     }
-    void display(){
-        cout<<this->name <<" : "<<this->price<<endl;
+    Cloneable * clone() const override  { 
+        return new NPC(*this);
     }
-};
-class Product2 : public ProductPrototype { 
-    string name ; 
-    int price; 
-    public : 
-    Product2(string name , int price ){
-        this->name = name ; 
-        this->price = price ;
+    
+    void display() override {
+        cout<<"Name : "<<name<<" Attack :"<<attack <<"Defence :"<<defence<<endl;
     }
-    ProductPrototype * Clone(){
-        return new Product2(*this);
-    }
-    void display (){
-         cout<<this->name <<" : "<<this->price<<endl;
+    void setName(string nam){
+        name = nam;
+
     }
 };
 int main(){
+    NPC * alien = new NPC("alien" , "gunshot" , 2);
+    NPC * clonealien = dynamic_cast<NPC*>(alien->clone());
+    clonealien->setName("newalienclone");
+    clonealien->display();
 
-    ProductPrototype * p1 = new Product1("lakme" , 345);// original product
-    ProductPrototype * lakme =  p1->Clone(); // clone product
-    lakme->display();
-    
-    ProductPrototype * p2 = new Product2("Ponds" , 349);
-    ProductPrototype* ponds = p2->Clone(); 
-    ponds->display();
-
-    delete p1 ;
-    delete lakme;
-    delete p2;
-    delete ponds;
 
 }

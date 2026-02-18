@@ -1,34 +1,70 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
 using namespace std;
 
-class Worker {
-    public :
-   virtual void getDescription() =0 ;
+
+class Worker { 
+    public : 
+    virtual string getworkername()=0;
+    virtual bool isManager()=0;
+    virtual string getDegination() = 0;
+    virtual void showHerirachy(int level) =0;
 
 };
-class Employees : public Worker  {
-    string designation ;
-    public :
-    Employees(string s){
-        this->designation =s;
+
+class Employeer  : public Worker {
+    string name; 
+    string degination ; 
+    public : 
+    Employeer(string n , string deg){
+        name = n;
+        degination = deg;
     }
-    void getDescription() override {
-        cout<<"designation :"<<this->designation;
+    string getworkername() override {
+        return name;
     }
-    
+    bool isManager(){
+        return false;
+    }
+
+    string getDegination() override {
+        return degination;
+    }
+    void showHerirachy(int level){
+        cout<<string(level*2 , ' ') + '-' + degination<<endl;
+    }
 };
+
 class Manager : public Worker {
-    string designation;
+     string name; 
+    string degination ; 
     vector<Worker*>workerList;
     public : 
-    Manager(string s) :designation(s){};
-    void addWorker(Worker * w)  {
-        workerList.push_back(w);
+    Manager(string n , string deg){
+        name = n;
+        degination = deg;
+    }
+    string getworkername() override {
+        return name;
+    }
+    void addEmployees(Worker * worker){
+        workerList.push_back(worker);
 
     }
-    void getDescription() override{
-        for(auto &it :  workerList){
-            it->getDescription();
+    bool isManager(){
+        return true;
+    }
+
+    string getDegination() override {
+        return degination;
+    }
+    void showHerirachy(int level) override {
+        cout<<string(level*2 , ' ') + degination<<endl;
+        for(auto it : workerList){
+           
+                it->showHerirachy(level+1);
+            
+           
         }
     }
 
@@ -36,14 +72,20 @@ class Manager : public Worker {
 };
 
 int main(){
+    Manager* manager = new Manager("depash" , "subordinate manager");
+     Manager* seniormanager = new Manager("nishika" , "senior manager");
+     Worker* worker1 = new Employeer("trisha" , "3yrsde"); 
+     Worker* worker2 = new Employeer("krisha" , "2yr sde");
+     Worker* worker3= new Employeer("krisha" , "1yr sde");
+    manager->addEmployees(worker1);
+    manager->addEmployees(worker2);
+    // manager->showHerirachy(1);
+    seniormanager->addEmployees(worker3);
+    seniormanager->addEmployees(manager);
+    seniormanager->showHerirachy(1);
 
-    Worker * w1 = new Employees("worker");
-    Worker *m1 = new Manager("manager");
 
-    Manager * superior = new Manager("managerHead");
-    superior->addWorker(m1);
-    superior->addWorker(w1);
-    superior->getDescription();
+     
 
 
 }

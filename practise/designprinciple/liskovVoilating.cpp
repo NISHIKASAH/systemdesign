@@ -1,14 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-class Account {
+class Account {  //superclass
     public : 
     virtual  void deposite() = 0;
     virtual  void withdrawl() = 0;
 };
 
 
-class SavingAccount : public Account  {
+class SavingAccount : public Account  { //subclass
     public : 
     void deposite(){
         cout<<"saving account deposite "<<endl;

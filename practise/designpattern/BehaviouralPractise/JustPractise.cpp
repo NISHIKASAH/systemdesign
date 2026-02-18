@@ -9,7 +9,7 @@ public:
     {
         this->name = name;
     }
-    virtual void travel(int amount) = 0;
+    virtual void travel(double amount) = 0;
 };
 
 class Bus : public Vehcile
@@ -18,7 +18,7 @@ public:
     Bus(string name) : Vehcile(name)
     {
     }
-    void travel(int amount) override
+    void travel(double amount) override
     {
         cout << "Travel cost by bus : " << amount;
     }
@@ -30,7 +30,7 @@ public:
     Train(string name) : Vehcile(name)
     {
     }
-    void travel(int amount) override
+    void travel(double amount) override
     {
         cout << "Travel cost by Train : " << amount;
     }
@@ -42,7 +42,7 @@ public:
     Car(string name) : Vehcile(name)
     {
     }
-    void travel(int amount) override
+    void travel(double amount) override
     {
         cout << "Travel cost by Car : " << amount;
     }
@@ -59,7 +59,7 @@ public:
         this->vehcileType = type;
     }
 
-    void generateTravelCost(int amount)
+    void generateTravelCost(double amount)
     {
         vehcileType->travel(amount);
     }

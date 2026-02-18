@@ -1,82 +1,194 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<stack>
 using namespace std;
 
-class Product {
-    private : 
-    string name ; 
-    int price ;
-    public : 
-    Product(string name , int price){
-        this->name = name; 
-        this->price = price;
-    }
-    string getName(){
-        return name;
-    }
-    int getPrice(){
-        return price;
-    }
-};
+template<typename T>
 class Iterator {
-    public : 
-    virtual Product * next() =0 ;
-    virtual  bool  hasnext() =0 ;
-    virtual Product *first() = 0;
+    public: 
+    virtual bool hasNext() = 0 ;
+    virtual T next() = 0;
 };
 
-class ProductIterator  :  public Iterator {
-    vector<Product*>productList;
-    int idx ;
-    public : 
-    ProductIterator(vector<Product*>product , int i  =0){
-        this->productList = product;
-        this->idx  = i;
-    }
-    Product * first() override {
-        if(productList.empty()){
-            return nullptr;
-        }
-        idx= 0;
-        return productList[idx];
-    }
-    bool hasnext() override {
-        return idx < productList.size();
-    }
-    Product * next() override {
-        if(hasnext()){
-            return productList[++idx];
-        }
-        return nullptr;
-    }
+template<typename T>
+class Iterable {
+    public :
+    virtual Iterator<T>* getIterator() = 0;
 };
-class ProductCollection {
-    vector<Product*>ProductCollection;
-    int idx;
+
+class LinkedList : public Iterable<int> {
     public:
-    void addProduct(Product * product){
-        ProductCollection.push_back(product);
+    int data;
+     LinkedList* nextnode ; 
+   
+    LinkedList(int val){
+        data = val;
+        nextnode = nullptr;
+    } 
+    Iterator<int>*getIterator() override ;
+
+};
+class BinaryTree : public Iterable<int>{
+    public:
+    int data;
+    BinaryTree * left;
+    BinaryTree * right;
+
+    BinaryTree(int val){
+        data = val;
+        left = nullptr;
+        right = nullptr;
+
     }
-    Iterator * createIterator(){
-        return new ProductIterator(ProductCollection);
-    }
+    Iterator<int>*getIterator() override;
     
 };
+
+class Song {
+    public:
+    string title;
+    string artist ;
+    Song(string t, string a){
+        title = t;
+        artist = a;
+    }
+
+};
+
+class PlayList : public Iterable<Song>{ 
+    vector<Song>songList;
+
+    public: 
+    void addSong(Song song){
+       songList.push_back(song);
+
+    }
+    Iterator<Song>*getIterator() override;
+};
+
+class LinkedListIterator : public Iterator<int>{
+    LinkedList * currentlist;
+    public : 
+    LinkedListIterator(LinkedList * list){
+        currentlist = list;
+    }
+    bool hasNext() override {
+        return currentlist != nullptr;
+    }
+    int next()override {
+        int val  = currentlist->data;
+        currentlist = currentlist->nextnode;
+        return val;
+    } 
+};
+
+class BinaryTreeIterator : public Iterator<int>{
+public:
+    BinaryTree * btree;
+    stack<BinaryTree*>st;
+    void pushLeft(BinaryTree * root){
+        while( root){
+
+            st.push(root);
+            root= root->left;
+        }
+
+    }
+    BinaryTreeIterator(BinaryTree * tree){
+        btree = tree;
+        pushLeft(tree);
+
+
+    }
+    bool hasNext()  override {
+        return !st.empty();
+    }
+    int next() override {
+        BinaryTree * currentTree= st.top();
+        int val = currentTree->data;
+        st.pop();
+
+        if(currentTree->right){
+            st.push(currentTree->right);
+        }
+
+        return val;
+    }
+
+};
+
+class PlayListIterator  : public Iterator<Song>{
+    vector<Song>currentList;
+    int idx ;
+    public:
+    
+    PlayListIterator(vector<Song>v){
+        idx = 0;
+        currentList = v;
+    }
+
+    bool hasNext() override {
+        return idx < currentList.size();
+    }
+    Song next() override {
+        return currentList[idx++];
+        
+    }
+
+};
+
+Iterator<int>* LinkedList ::getIterator() {
+    return new LinkedListIterator(this);
+}
+Iterator<int>*BinaryTree ::getIterator(){
+    return new BinaryTreeIterator(this);
+
+}
+
+Iterator<Song>*PlayList ::getIterator(){
+    return  new PlayListIterator(songList);
+}
+
 int main(){
-    Product * dress =  new Product("dress" , 1200);
-     Product * shirt =  new Product("shirt" , 890);
-      Product * pant =  new Product("pant" , 900);
 
-      ProductCollection * stock  = new ProductCollection();
-      stock->addProduct(dress);
-      stock->addProduct(shirt);
-      stock->addProduct(pant);
+    BinaryTree * tree = new BinaryTree(1);
+    tree->left = new BinaryTree(2);
+    tree->left->left = new BinaryTree(3);
+    tree->left->right = new BinaryTree(4);
 
-      Iterator * iterator = stock->createIterator();
-      cout<<"First : " << stock->createIterator()->first()->getName()<<endl;
-      while(iterator->hasnext()){
-        Product * item = iterator->next();
-        cout<<item->getName()<<" : "<< item->getPrice() <<endl;
+   Iterator<int>*rootnode =  tree->getIterator();
+   while(rootnode->hasNext()){
+    cout<<rootnode->next()<<" "<<endl;
+   }
+
+   
+    
+    cout<<"\n----------------\n"<<endl;
+    LinkedList * list = new LinkedList(10);
+    list->nextnode = new LinkedList(20);
+    list->nextnode->nextnode = new LinkedList(30);
+
+    Iterator<int>*head = list->getIterator();
+    while(head->hasNext()){
+        cout<<head->next()<<" "<<endl;
+    }
+
+  cout<<"\n----------------\n"<<endl;
+    PlayList * playlist = new PlayList();
+
+    playlist->addSong(Song("tum hi ho" , "arijit singh"));
+     playlist->addSong(Song("keshariya" , "pritam"));
+      playlist->addSong(Song("pehali dafa" , "atif"));
+
+      Iterator<Song>*elem = playlist->getIterator();
+      while(elem->hasNext()){
+        Song s = elem->next();
+        cout<<s.title<<" "<<s.artist<<endl;
       }
-      
+
+
+
+
+
 
 }

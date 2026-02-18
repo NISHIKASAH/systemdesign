@@ -28,7 +28,7 @@ class Expenses
 {
 public:
     string expName;
-    int amount;
+    double amount;
     vector<Split> splitList;
     Expenses(int am, string exp, vector<Split> split)
     {
@@ -67,7 +67,7 @@ class BalanceSheet
 public:
     unordered_map<User *, unordered_map<User *, double>> Balance;
 
-    void addTransaction(User *paidBy, User *paidTo, int amount)
+    void addTransaction(User *paidBy, User *paidTo, double amount)
     {
         Balance[paidBy][paidTo] -= amount;
         Balance[paidTo][paidBy] += amount;

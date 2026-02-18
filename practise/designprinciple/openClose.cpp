@@ -4,9 +4,10 @@ using namespace std;
 
 /*
 open for extention  , close for modification  i .e 
-can extend a class , but should not add new feature in  already present class  
+can extend(inherited )a class , but should not add new feature in  already present class  
 -do this by abstraction 
 */
+
 
 class Product {
     string name ; 
@@ -93,6 +94,7 @@ class SaveToFile : public StoringDetails  {
     }
 
 };
+
 int main(){
        Product * dress  = new Product("dress" , 200);
     Product * shorts  = new Product("shorts" , 400);
