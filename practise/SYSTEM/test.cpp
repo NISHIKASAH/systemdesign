@@ -1,135 +1,109 @@
-#include<iostream>
-#include<string>
-#include<stdexcept>
-#include<vector>
+#include <iostream>
 using namespace std;
 
-class FilesystemItem { 
-    public : 
-    virtual string getName() = 0 ;
-    virtual int getSize()= 0 ;
-    virtual void ls( int intent=0)=0;
-    virtual FilesystemItem* cd (string target) =0 ;
-    virtual void openAll(int intent=0) = 0;
-    virtual bool isFolder() =0;
+class Desktop
+{
+public:
+    string motherboard;
+    string processor;
+    string storage;
+    string brand;
 
-    
-
+    void display()
+    {
+        
+        cout << "MotherBoard : " << motherboard;
+        cout << "Processor : " << processor;
+        cout << "Storage : " << storage;
+        cout << "Brand : " << brand;
+    }
 };
 
-class File : public FilesystemItem  {
-    string name;
-    int size;
-    public :
-    File(string nam){
-    name=  nam;
-    size = 0;
-    }
+class DesktopBuilder
+{
+protected:
+    Desktop desktop;
 
-    string getName(){
-        return name;
+public:
+    virtual void buildMotherboard() = 0;
+    virtual void buildProcessor() = 0;
+    virtual void buildstorage() = 0;
+    virtual void buildbrand() = 0;
+    Desktop getDesktop()
+    {
+        return desktop;
     }
-    int getSize() {
-        return size;
-    }
-     void ls( int intent=0){
-        cout<<string(intent, ' ')<<name<<endl;
-     }
-    FilesystemItem* cd (string target) {
-        nullptr;
-    }
-    void openAll(int intent=0){
-        cout<<string(intent, ' ')<<name<<endl;
-    }
-    bool isFolder(){
-        return false;
-    }
-
-
-
-
-
 };
 
-class Folder : public FilesystemItem{ 
-    vector<FilesystemItem*>folders;
-    string name;
-    public : 
-    Folder(string nam){
-        name= nam;
-    }
-    void addItems(FilesystemItem * item){
-        folders.push_back(item);
-    }
+class DellDesktopBuilder : public DesktopBuilder
+{
 
-    string getName() {
-        return name;
+    void buildMotherboard()
+    {
+        desktop.motherboard = "dell motherboard";
     }
-    int getSize() { 
-        int total =0 ;
-        for(auto child : folders){
-            total += child->getSize();
-        }
-        return total;
+    void buildProcessor()
+    {
+        desktop.processor = "dell processor";
     }
-    void ls( int intent=0){
-        for(auto child : folders){
-            if(child->isFolder()){
-                cout<<string(intent, ' ')<<"+ "<<child->getName()<<endl;
-            }
-            else{
-                cout<<string(intent, ' ')<<child->getName() <<endl;
-            }
-        }
+    void buildstorage()
+    {
+        desktop.storage = "dell storage";
     }
-    FilesystemItem* cd (string target){
-        for(auto child : folders){
-            if(child->isFolder() &&  child->getName() == target){
-                return child;
-            }
-        }
-        return nullptr; 
+    void buildbrand()
+    {
+        desktop.brand = "dell brand";
     }
-    void openAll(int intent=0) { 
-        cout<<string(intent, ' ') <<"+ "<<name<<endl;
-        for(auto child : folders){
-            child->openAll(intent+4);
-        }
-    }
-    bool isFolder(){
-        return true;
-    }
-    
-
-
 };
 
-int main(){
-    File * file1 = new File("sample1.txt");
-    File * file2 = new File("sample2.txt");
-    File * file3 = new File("sample3.txt");
+class HpDesktopBuilder : public DesktopBuilder
+{
 
-    Folder * folder1 = new Folder("samplepapers");
-     Folder * folder2 = new Folder("recording");
-      Folder * Mainfolder = new Folder("MainFolder");
+    void buildMotherboard()
+    {
+        desktop.motherboard = "hp motherboard";
+    }
+    void buildProcessor()
+    {
+        desktop.processor = "hp processor";
+    }
+    void buildstorage()
+    {
+        desktop.storage = "hp storage";
+    }
+    void buildbrand()
+    {
+        desktop.brand = "hp brand";
+    }
+};
 
-     
+class BuilderDirectory
+{
+private:
+    DesktopBuilder *builder;
 
-    File * file4 = new File("sample4.txt");
-    File * file5 = new File("sample5.txt");
+public:
+    BuilderDirectory(DesktopBuilder *buildertype)
+    {
+        builder = buildertype;
+    }
 
-     folder2->addItems(file4);
-     folder2->addItems(file5);
+    Desktop buildDesktop()
+    {
+        builder->buildbrand();
+        builder->buildMotherboard();
+        builder->buildProcessor();
+        builder->buildstorage();
 
-    folder1->addItems(file1);
-      folder1->addItems(file2);
-        folder1->addItems(file3);
-       
-        Mainfolder->addItems(folder1);
-        Mainfolder->addItems(folder2);
+        return builder->getDesktop();
+    }
+};
 
-        Mainfolder->ls();
-        Mainfolder->openAll();
-            
-    
+int main()
+{
+
+    DesktopBuilder *builder = new DellDesktopBuilder();
+    BuilderDirectory *directory = new BuilderDirectory(builder);
+    Desktop desktop = directory->buildDesktop();
+    desktop.display();
 }

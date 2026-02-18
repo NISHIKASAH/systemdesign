@@ -1,99 +1,109 @@
-#include<bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
-class Desktop {
-    private : 
-    string storage ; 
+class Desktop
+{
+public:
     string motherboard;
-    string speaker ; 
-    string processor ; 
+    string processor;
+    string storage;
+    string brand;
 
-    public  : 
-    void setStorage(string s ){
-        this->storage = s; 
+    void display()
+    {
         
+        cout << "MotherBoard : " << motherboard;
+        cout << "Processor : " << processor;
+        cout << "Storage : " << storage;
+        cout << "Brand : " << brand;
     }
-    void setSpeaker(string s){
-        this->speaker  = s;
-    
-    }
-    void setProcessor(string p ){
-        this->processor = p;
-      
-    }
-    void setMotherboard(string m){
-        this->motherboard = m ;
-        
-    }
-    void getFeatures(){
-        
-        cout << "Desktop Feature :\n";
-        cout << "Processor : " << processor << "\n";
-        cout << "Motherboard : " <<motherboard << "\n";
-        cout << "Storage : " << storage << "\n";
-        cout << "Speaker : " << speaker << "\n";
-    
-    }
-
 };
 
-class DesktopBuilder {
-    protected : 
-    Desktop * desktop ; 
-    public : 
-    DesktopBuilder(Desktop * desktop){
-        this->desktop  = desktop ; 
-    };
-    virtual void BuildStorage() =0;
-    virtual  void  BuildProcessor() = 0;
-    virtual void BuildMotherBoard() =0;
-    virtual void BuildSpeaker() = 0;
-    Desktop * getDesktop(){
+class DesktopBuilder
+{
+protected:
+    Desktop desktop;
+
+public:
+    virtual void buildMotherboard() = 0;
+    virtual void buildProcessor() = 0;
+    virtual void buildstorage() = 0;
+    virtual void buildbrand() = 0;
+    Desktop getDesktop()
+    {
         return desktop;
     }
 };
-class GamingDesktopBuilder  : public DesktopBuilder {
-    public : 
-    GamingDesktopBuilder(Desktop * desktop) : DesktopBuilder(desktop){};
 
-    void BuildStorage() override {
-        desktop->setStorage("23GB");
+class DellDesktopBuilder : public DesktopBuilder
+{
+
+    void buildMotherboard()
+    {
+        desktop.motherboard = "dell motherboard";
     }
-    void BuildProcessor() override {
-        desktop->setProcessor("1 Terabytes");
+    void buildProcessor()
+    {
+        desktop.processor = "dell processor";
     }
-    void BuildMotherBoard() override {
-        desktop->setMotherboard("2GB processor ");
+    void buildstorage()
+    {
+        desktop.storage = "dell storage";
     }
-    void BuildSpeaker() override { 
-        desktop->setSpeaker("16Mps");
+    void buildbrand()
+    {
+        desktop.brand = "dell brand";
     }
-   
 };
 
-class DesktopDirectory {
-    DesktopBuilder  * builder ; 
-    public : 
-    DesktopDirectory(DesktopBuilder * builder) {
-        this->builder = builder;
+class HpDesktopBuilder : public DesktopBuilder
+{
+
+    void buildMotherboard()
+    {
+        desktop.motherboard = "hp motherboard";
     }
-    Desktop * Build (){
-        builder->BuildMotherBoard();
-        builder->BuildProcessor();
-        builder->BuildSpeaker();
-        builder->BuildStorage();
+    void buildProcessor()
+    {
+        desktop.processor = "hp processor";
+    }
+    void buildstorage()
+    {
+        desktop.storage = "hp storage";
+    }
+    void buildbrand()
+    {
+        desktop.brand = "hp brand";
+    }
+};
+
+class BuilderDirectory
+{
+private:
+    DesktopBuilder *builder;
+
+public:
+    BuilderDirectory(DesktopBuilder *buildertype)
+    {
+        builder = buildertype;
+    }
+
+    Desktop buildDesktop()
+    {
+        builder->buildbrand();
+        builder->buildMotherboard();
+        builder->buildProcessor();
+        builder->buildstorage();
+
         return builder->getDesktop();
-
     }
 };
 
-int main(){
-    cout<<"Builder pattern implementation"<<endl;
-    Desktop * desktop = new Desktop();
+int main()
+{
 
-    GamingDesktopBuilder * gammingDesktop = new GamingDesktopBuilder(desktop);
-
-    DesktopDirectory * director = new DesktopDirectory(gammingDesktop);
-    Desktop * finishDesktop = director->Build();
-    finishDesktop->getFeatures();
+    DesktopBuilder *builder = new DellDesktopBuilder();
+    BuilderDirectory *directory = new BuilderDirectory(builder);
+    Desktop desktop = directory->buildDesktop();
+    desktop.display();
 }
